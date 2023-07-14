@@ -1,10 +1,2 @@
 require:
-  - standard
   - rubocop-performance
-
-inherit_gem:
-  standard: config/base.yml
-  standard-performance: config/base.yml
-
-AllCops:
-  DisabledByDefault: true
