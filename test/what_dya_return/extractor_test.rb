@@ -7,6 +7,13 @@ module WhatDyaReturn
     test 'no statement' do
       actual_result = WhatDyaReturn::Extractor.new.extract(<<-CODE)
         def foo
+        end
+      CODE
+      expect_result = ['']
+      assert_equal(expect_result, actual_result)
+
+      actual_result = WhatDyaReturn::Extractor.new.extract(<<-CODE)
+        def foo
           42
         end
       CODE

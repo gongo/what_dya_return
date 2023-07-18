@@ -22,7 +22,10 @@ module WhatDyaReturn
     # @return [void]
     #
     def check_branch(node, is_ret_expr)
-      return unless node
+      unless node
+        @return_nodes << node if is_ret_expr
+        return
+      end
 
       case node
       when ::RuboCop::AST::ReturnNode
