@@ -233,5 +233,52 @@ module WhatDyaReturn
         end
       CODE
     end
+
+    def test_conditional_with_case_when
+      assert_extract_values(<<-CODE, ['"1"', '"2"', ''])
+        def foo
+          case bar
+          when 1
+            '1'
+          when 2
+            '2'
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_case_when_else
+      assert_extract_values(<<-CODE, ['"1"', '"2"', '"3"', '"4"'])
+        def foo
+          case bar
+          when false
+            '1'
+          when 2
+            '2'
+          when nil
+            '3'
+          else
+            '4'
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_case_when_else_no_case_condition
+      assert_extract_values(<<-CODE, ['"2"', '"4"'])
+        def foo
+          case
+          when false
+            '1'
+          when 2
+            '2'
+          when nil
+            '3'
+          else
+            '4'
+          end
+        end
+      CODE
+    end
   end
 end
