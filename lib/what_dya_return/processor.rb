@@ -40,6 +40,10 @@ module WhatDyaReturn
         check_if_node(node, is_ret_expr)
       when ::RuboCop::AST::CaseNode
         check_case_node(node, is_ret_expr)
+      when ::RuboCop::AST::RescueNode
+        check_rescue_node(node, is_ret_expr)
+      when ::RuboCop::AST::EnsureNode
+        check_ensure_node(node, is_ret_expr)
       else
         @return_nodes << node if is_ret_expr
       end
@@ -97,6 +101,36 @@ module WhatDyaReturn
       end
 
       check_branch(node.else_branch, is_ret_expr)
+    end
+
+    #
+    # @param [RuboCop::AST::RescueNode] node
+    # @param [Boolean] is_ret_expr Whether current scope is within return expression
+    # @return [void]
+    #
+    def check_rescue_node(node, is_ret_expr)
+      if node.else_branch && StatementChecker.reachable_to_next_statement?(node.body)
+        check_branch(node.else_branch, is_ret_expr)
+      else
+        check_branch(node.body, is_ret_expr)
+      end
+
+      node.resbody_branches.each do |resbody_branch|
+        check_branch(resbody_branch.body, is_ret_expr)
+      end
+    end
+
+    #
+    # @param [RuboCop::AST::EnsureNode] node
+    # @param [Boolean] is_ret_expr Whether current scope is within return expression
+    # @return [void]
+    #
+    def check_ensure_node(node, is_ret_expr)
+      if StatementChecker.reachable_to_next_statement?(node.body)
+        check_branch(node.node_parts[0], is_ret_expr) # begin or rescue node
+      else
+        check_branch(node.body, false)
+      end
     end
   end
 end

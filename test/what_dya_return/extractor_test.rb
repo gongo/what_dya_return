@@ -335,5 +335,81 @@ module WhatDyaReturn
         end
       CODE
     end
+
+    def test_rescue
+      assert_extract_values(<<-CODE, %w[1 2])
+        def foo
+          1
+        rescue
+          2
+        end
+      CODE
+    end
+
+    def test_rescue_else
+      assert_extract_values(<<-CODE, %w[3 2])
+        def foo
+          1
+        rescue
+          2
+        else
+          3
+        end
+      CODE
+    end
+
+    def test_rescue_ensure
+      assert_extract_values(<<-CODE, %w[1 2])
+        def foo
+          1
+        rescue
+          2
+        ensure
+          3
+        end
+      CODE
+    end
+
+    def test_rescue_else_ensure
+      assert_extract_values(<<-CODE, %w[3 2])
+        def foo
+          1
+        rescue
+          2
+        else
+          3
+        ensure
+          4
+        end
+      CODE
+    end
+
+    def test_rescue_else_ensure_with_early_return_in_ensure
+      assert_extract_values(<<-CODE, %w[4])
+        def foo
+          1
+        rescue
+          2
+        else
+          3
+        ensure
+          return 4
+        end
+      CODE
+    end
+
+    def test_rescue_else_ensure_with_early_return_in_begin
+      assert_extract_values(<<-CODE, %w[1 2])
+        def foo
+          return 1
+        rescue
+          2
+        else
+          3
+        ensure
+          4
+        end
+      CODE
+    end
   end
 end
