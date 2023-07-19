@@ -234,6 +234,16 @@ module WhatDyaReturn
       CODE
     end
 
+    def test_multiline_with_early_return_always
+      assert_extract_values(<<-CODE, %w[1])
+        def foo
+          return 1
+          2
+          3
+        end
+      CODE
+    end
+
     def test_conditional_with_case_when
       assert_extract_values(<<-CODE, ['"1"', '"2"', ''])
         def foo
@@ -277,6 +287,51 @@ module WhatDyaReturn
           else
             '4'
           end
+        end
+      CODE
+    end
+
+    def test_conditional_with_case_when_have_return_all_branches
+      assert_extract_values(<<-CODE, %w[1 2 42])
+        def foo
+          case
+          when true
+            return 1
+          when 22
+            return 2
+          end
+
+          42
+        end
+      CODE
+    end
+
+    def test_conditional_with_case_when_else_have_return_any_branches
+      assert_extract_values(<<-CODE, %w[2 42])
+        def foo
+          case foo
+          when true
+            1
+          else
+            return 2
+          end
+
+          42
+        end
+      CODE
+    end
+
+    def test_conditional_with_case_when_else_have_return_all_branches
+      assert_extract_values(<<-CODE, %w[1 2])
+        def foo
+          case
+          when true
+            return 1
+          else
+            return 2
+          end
+
+          42
         end
       CODE
     end

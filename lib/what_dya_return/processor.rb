@@ -2,6 +2,7 @@
 
 require_relative 'ext/rubocop/ast/builder'
 require_relative 'ext/rubocop/ast/node/if_node'
+require_relative 'statement_checker'
 
 module WhatDyaReturn
   class Processor
@@ -51,6 +52,7 @@ module WhatDyaReturn
     def check_begin_node(node, is_ret_expr)
       node.children[0..-2].each do |child|
         check_branch(child, false)
+        return unless StatementChecker.reachable_to_next_statement?(child) # rubocop:disable Lint/NonLocalExitFromIterator
       end
 
       check_branch(node.children[-1], is_ret_expr)
