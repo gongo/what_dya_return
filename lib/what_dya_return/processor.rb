@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'ext/rubocop/ast/builder'
 require_relative 'ext/rubocop/ast/node/if_node'
 
 module WhatDyaReturn
@@ -30,6 +31,8 @@ module WhatDyaReturn
       end
 
       case node
+      when WhatDyaReturn::AST::BeginNode
+        check_begin_node(node, is_ret_expr)
       when ::RuboCop::AST::ReturnNode
         check_return_node(node)
       when ::RuboCop::AST::IfNode
@@ -37,6 +40,18 @@ module WhatDyaReturn
       else
         @return_nodes << node if is_ret_expr
       end
+    end
+
+    #
+    # @param [WhatDyaReturn::AST::BeginNode] node
+    # @return [void]
+    #
+    def check_begin_node(node, is_ret_expr)
+      node.children[0..-2].each do |child|
+        check_branch(child, false)
+      end
+
+      check_branch(node.children[-1], is_ret_expr)
     end
 
     #

@@ -213,5 +213,25 @@ module WhatDyaReturn
         end
       CODE
     end
+
+    def test_multiline
+      assert_extract_values(<<-CODE, ['3'])
+        def foo
+          1
+          2
+          3
+        end
+      CODE
+    end
+
+    def test_multiline_with_early_return
+      assert_extract_values(<<-CODE, %w[1 3])
+        def foo
+          return 1 if bar
+          2
+          3
+        end
+      CODE
+    end
   end
 end
