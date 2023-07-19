@@ -21,7 +21,7 @@ end
 ## Usage
 
 ```rb
-result = WhatDyaReturn::Extractor.new.extract(<<-CODE)
+WhatDyaReturn::Extractor.new.extract(<<-CODE)
   def foo
     if bar
       42
@@ -30,8 +30,38 @@ result = WhatDyaReturn::Extractor.new.extract(<<-CODE)
     end
   end
 CODE
+# => ['42', "'baz'"]
 
-result # => ['42', "'baz'"]
+WhatDyaReturn::Extractor.new.extract(<<-CODE)
+  def foo
+    return 42 if bar # `bar` is not evaluated in this gem
+
+    123
+  end
+CODE
+# => ['42', '123']
+
+WhatDyaReturn::Extractor.new.extract(<<-CODE)
+  def foo
+    return 42
+
+    123
+  end
+CODE
+# => ['42']
+
+puts WhatDyaReturn::Extractor.new.extract(<<-CODE)
+  def foo
+    do_something
+  rescue
+    2
+  else
+    3
+  ensure
+    4
+  end
+CODE
+# => ['3', '2']
 ```
 
 ## Caution
