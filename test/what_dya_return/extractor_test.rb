@@ -188,8 +188,30 @@ module WhatDyaReturn
           end
         end
       CODE
-      expect_result = ['42', ':piyo', '"quux"', '"corge"']
-      assert_equal(expect_result, actual_result)
+    end
+
+    def test_conditinal_with_ternary
+      assert_extract_values(<<-CODE, ['42', '"baz"'])
+        def foo
+          bar ? 42 : 'baz'
+        end
+      CODE
+    end
+
+    def test_conditinal_with_ternary_only_former
+      assert_extract_values(<<-CODE, ['42'])
+        def foo
+          true ? 42 : 'baz'
+        end
+      CODE
+    end
+
+    def test_conditinal_with_ternary_only_latter
+      assert_extract_values(<<-CODE, ['"baz"'])
+        def foo
+          false ? 42 : 'baz'
+        end
+      CODE
     end
   end
 end

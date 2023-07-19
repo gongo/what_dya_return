@@ -15,7 +15,7 @@ module RuboCop
       # @return [Boolean]
       #
       def if_branch_reachable?
-        ((if? || elsif?) && condition.falsey_literal?.!) || (unless? && condition.truthy_literal?.!)
+        ((if? || ternary? || elsif?) && condition.falsey_literal?.!) || (unless? && condition.truthy_literal?.!)
       end
 
       #
@@ -30,7 +30,7 @@ module RuboCop
       # @return [Boolean]
       #
       def else_branch_reachable?
-        ((if? || elsif?) && condition.truthy_literal?.!) || (unless? && condition.falsey_literal?.!)
+        ((if? || ternary? || elsif?) && condition.truthy_literal?.!) || (unless? && condition.falsey_literal?.!)
       end
     end
   end
