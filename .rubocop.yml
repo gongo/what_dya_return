@@ -1,2 +1,10 @@
 require:
   - rubocop-performance
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/what_dya_return/extractor_test.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'test/what_dya_return/extractor_test.rb'
