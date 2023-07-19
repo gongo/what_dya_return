@@ -10,7 +10,7 @@ module WhatDyaReturn
     end
 
     def test_no_statement
-      assert_extract_values(<<-CODE, [''])
+      assert_extract_values(<<-CODE, ['nil'])
         def foo
         end
       CODE
@@ -49,7 +49,7 @@ module WhatDyaReturn
     end
 
     def test_conditional_with_if
-      assert_extract_values(<<-CODE, ['42', ''])
+      assert_extract_values(<<-CODE, %w[42 nil])
         def foo
           if bar
             42
@@ -59,7 +59,7 @@ module WhatDyaReturn
     end
 
     def test_conditional_with_if_modifier
-      assert_extract_values(<<-CODE, ['42', ''])
+      assert_extract_values(<<-CODE, %w[42 nil])
         def foo
           42 if bar
         end
@@ -75,7 +75,7 @@ module WhatDyaReturn
     end
 
     def test_conditinal_with_if_modifier_must_false
-      assert_extract_values(<<-CODE, [''])
+      assert_extract_values(<<-CODE, %w[nil])
         def foo
           42 if false
         end
@@ -245,7 +245,7 @@ module WhatDyaReturn
     end
 
     def test_conditional_with_case_when
-      assert_extract_values(<<-CODE, ['1', '2', ''])
+      assert_extract_values(<<-CODE, %w[1 2 nil])
         def foo
           case bar
           when '1'
