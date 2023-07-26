@@ -3,6 +3,7 @@
 module WhatDyaReturn
   module AST
     class BeginNode < ::RuboCop::AST::Node
+      include Ascendence
     end
   end
 end

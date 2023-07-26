@@ -3,6 +3,8 @@
 module WhatDyaReturn
   module AST
     class IfNode < ::RuboCop::AST::IfNode
+      include Ascendence
+
       #
       # @example
       #

@@ -3,6 +3,7 @@
 module WhatDyaReturn
   module AST
     class ResbodyNode < ::RuboCop::AST::ResbodyNode
+      include Ascendence
     end
   end
 end
