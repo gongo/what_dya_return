@@ -8,6 +8,19 @@
 module WhatDyaReturn
   module StatementChecker
     class ReachableToNextStatement
+      extend RuboCop::AST::NodePattern::Macros
+
+      # @!method flow_terminate_command?(node)
+      def_node_matcher :flow_terminate_command?, <<~PATTERN
+        {
+          return next break retry redo
+          (send
+            {nil? (const {nil? cbase} :Kernel)}
+            {:raise :fail :throw :exit :exit! :abort}
+            ...)
+        }
+      PATTERN
+
       #
       # @param node [RuboCop::AST::Node]
       # @return [Boolean]
@@ -137,22 +150,6 @@ module WhatDyaReturn
         return true if ok?(node.else_branch)
 
         node.when_branches.any? { |when_branch| ok?(when_branch.body) }
-      end
-
-      #
-      # @param node [WhatDyaReturn::AST::Node]
-      # @return [Boolean]
-      #
-      def flow_terminate_command?(node)
-        ::RuboCop::AST::NodePattern.new(<<-PATTERN).match(node)
-          {
-            return next break retry redo
-            (send
-              {nil? (const {nil? cbase} :Kernel)}
-              {:raise :fail :throw :exit :exit! :abort}
-              ...)
-          }
-        PATTERN
       end
     end
   end
