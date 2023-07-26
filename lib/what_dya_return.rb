@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'what_dya_return/ast'
 require_relative 'what_dya_return/extractor'
 require_relative 'what_dya_return/version'
 

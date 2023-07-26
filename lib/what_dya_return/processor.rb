@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'ext/rubocop/ast/builder'
-require_relative 'ext/rubocop/ast/node/if_node'
 require_relative 'statement_checker'
 
 module WhatDyaReturn
   class Processor
     #
-    # @param [RuboCop::AST::DefNode] node
+    # @param [WhatDyaReturn::AST::DefNode] node
     # @return [Array<RuboCop::AST::Node>]
     #
     def process(node)
@@ -34,15 +32,15 @@ module WhatDyaReturn
       case node
       when WhatDyaReturn::AST::BeginNode
         check_begin_node(node, is_ret_expr)
-      when ::RuboCop::AST::ReturnNode
+      when WhatDyaReturn::AST::ReturnNode
         check_return_node(node)
-      when ::RuboCop::AST::IfNode
+      when WhatDyaReturn::AST::IfNode
         check_if_node(node, is_ret_expr)
-      when ::RuboCop::AST::CaseNode
+      when WhatDyaReturn::AST::CaseNode
         check_case_node(node, is_ret_expr)
-      when ::RuboCop::AST::RescueNode
+      when WhatDyaReturn::AST::RescueNode
         check_rescue_node(node, is_ret_expr)
-      when ::RuboCop::AST::EnsureNode
+      when WhatDyaReturn::AST::EnsureNode
         check_ensure_node(node, is_ret_expr)
       else
         @return_nodes << node if is_ret_expr
@@ -63,7 +61,7 @@ module WhatDyaReturn
     end
 
     #
-    # @param [RuboCop::AST::ReturnNode] node
+    # @param [WhatDyaReturn::AST::ReturnNode] node
     # @return [void]
     #
     def check_return_node(node)
@@ -71,7 +69,7 @@ module WhatDyaReturn
     end
 
     #
-    # @param [RuboCop::AST::IfNode] node
+    # @param [WhatDyaReturn::AST::IfNode] node
     # @param [Boolean] is_ret_expr Whether current scope is within return expression
     # @return [void]
     #
@@ -81,7 +79,7 @@ module WhatDyaReturn
     end
 
     #
-    # @param [RuboCop::AST::CaseNode] node
+    # @param [WhatDyaReturn::AST::CaseNode] node
     # @param [Boolean] is_ret_expr Whether current scope is within return expression
     # @return [void]
     #
@@ -104,7 +102,7 @@ module WhatDyaReturn
     end
 
     #
-    # @param [RuboCop::AST::RescueNode] node
+    # @param [WhatDyaReturn::AST::RescueNode] node
     # @param [Boolean] is_ret_expr Whether current scope is within return expression
     # @return [void]
     #
@@ -121,7 +119,7 @@ module WhatDyaReturn
     end
 
     #
-    # @param [RuboCop::AST::EnsureNode] node
+    # @param [WhatDyaReturn::AST::EnsureNode] node
     # @param [Boolean] is_ret_expr Whether current scope is within return expression
     # @return [void]
     #

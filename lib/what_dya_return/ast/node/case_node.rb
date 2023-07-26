@@ -2,7 +2,7 @@
 
 module WhatDyaReturn
   module AST
-    class BeginNode < ::RuboCop::AST::Node
+    class CaseNode < ::RuboCop::AST::CaseNode
     end
   end
 end

@@ -9,7 +9,7 @@ module WhatDyaReturn
   module StatementChecker
     class ReachableToNextStatement
       #
-      # @param node [::RuboCop::AST::Node]
+      # @param node [RuboCop::AST::Node]
       # @return [Boolean]
       #
       def ok?(node)
@@ -18,9 +18,9 @@ module WhatDyaReturn
         case node
         when WhatDyaReturn::AST::BeginNode
           check_begin(node)
-        when ::RuboCop::AST::IfNode
+        when WhatDyaReturn::AST::IfNode
           check_if(node)
-        when ::RuboCop::AST::CaseNode
+        when WhatDyaReturn::AST::CaseNode
           check_case(node)
         else
           true
@@ -88,7 +88,7 @@ module WhatDyaReturn
       #
       #    "b" # unreachable
       #
-      # @param node [::RuboCop::AST::IfNode]
+      # @param node [WhatDyaReturn::AST::IfNode]
       # @return [Boolean]
       #
       def check_if(node)
@@ -129,7 +129,7 @@ module WhatDyaReturn
       #
       #    "b" # unreachable
       #
-      # @param node [::RuboCop::AST::CaseNode]
+      # @param node [WhatDyaReturn::AST::CaseNode]
       # @return [Boolean]
       #
       def check_case(node)
@@ -140,7 +140,7 @@ module WhatDyaReturn
       end
 
       #
-      # @param node [::RuboCop::AST::Node]
+      # @param node [WhatDyaReturn::AST::Node]
       # @return [Boolean]
       #
       def flow_terminate_command?(node)

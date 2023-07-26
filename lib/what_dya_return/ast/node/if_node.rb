@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module RuboCop
+module WhatDyaReturn
   module AST
-    class RuboCop::AST::IfNode
+    class IfNode < ::RuboCop::AST::IfNode
       #
       # @example
       #
