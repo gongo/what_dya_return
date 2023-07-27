@@ -19,7 +19,10 @@ module WhatDyaReturn
         when: WhenNode,
         rescue: RescueNode,
         resbody: ResbodyNode,
-        ensure: EnsureNode
+        ensure: EnsureNode,
+        while: WhileNode,
+        until: UntilNode,
+        break: BreakNode
       }.freeze
 
       #

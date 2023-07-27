@@ -336,6 +336,122 @@ module WhatDyaReturn
       CODE
     end
 
+    def test_conditional_with_while
+      assert_extract_values(<<-CODE, %w[nil])
+        def foo
+          while bar
+            1
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_while_break_always
+      assert_extract_values(<<-CODE, %w[2])
+        def foo
+          while bar
+            1
+            break 2
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_while_break_sometimes
+      assert_extract_values(<<-CODE, %w[2 nil])
+        def foo
+          while bar
+            1
+            break 2 if baz
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_while_not_last_statement
+      assert_extract_values(<<-CODE, %w[4])
+        def foo
+          while bar
+            1
+            break 2
+            3
+          end
+
+          4
+        end
+      CODE
+    end
+
+    def test_conditional_with_while_condition_always_false
+      assert_extract_values(<<-CODE, %w[nil])
+        def foo
+          while false
+            break 2
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_until
+      assert_extract_values(<<-CODE, %w[nil])
+        def foo
+          until bar
+            1
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_until_break_always
+      assert_extract_values(<<-CODE, %w[2])
+        def foo
+          until bar
+            1
+            break 2
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_until_break_sometimes
+      assert_extract_values(<<-CODE, %w[2 nil])
+        def foo
+          until bar
+            1
+            break 2 if baz
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_until_not_last_statement
+      assert_extract_values(<<-CODE, %w[4])
+        def foo
+          until bar
+            1
+            break 2
+            3
+          end
+
+          4
+        end
+      CODE
+    end
+
+    def test_conditional_with_until_condition_always_true
+      assert_extract_values(<<-CODE, %w[nil])
+        def foo
+          until true
+            break 2
+          end
+        end
+      CODE
+    end
+
     def test_rescue
       assert_extract_values(<<-CODE, %w[1 2])
         def foo

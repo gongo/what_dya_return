@@ -21,7 +21,7 @@ module WhatDyaReturn
       #
       # @example
       #
-      #   def foo
+      #   def foo      # last index is 1
       #     if bar
       #       return 1 # true  (parent is `return`)
       #     else
@@ -45,6 +45,10 @@ module WhatDyaReturn
           sibling_index == parent.children.size - 1
         when BeginNode
           sibling_index == parent.children.size - 1 ? parent.used_as_return_value? : false
+        when BreakNode
+          ancestors.find { |n| [WhileNode, UntilNode].include?(n.class) }.used_as_return_value?
+        when WhileNode, UntilNode
+          false # Only with break or return node.
         else
           parent.used_as_return_value?
         end

@@ -46,6 +46,12 @@ module WhatDyaReturn
         check_rescue_node(node)
       when WhatDyaReturn::AST::EnsureNode
         check_ensure_node(node)
+      when WhatDyaReturn::AST::WhileNode
+        check_while_node(node)
+      when WhatDyaReturn::AST::UntilNode
+        check_until_node(node)
+      when WhatDyaReturn::AST::BreakNode
+        check_break_node(node)
       else
         @return_nodes << node if node.used_as_return_value?
       end
@@ -129,6 +135,40 @@ module WhatDyaReturn
       else
         check_branch(node.body, node)
       end
+    end
+
+    #
+    # @param [WhatDyaReturn::AST::WhileNode] node
+    # @return [void]
+    #
+    def check_while_node(node)
+      if node.body_reachable?
+        check_branch(node.body, node)
+        check_branch(nil, node) if StatementChecker.reachable_to_next_statement?(node.body)
+      else
+        check_branch(nil, node)
+      end
+    end
+
+    #
+    # @param [WhatDyaReturn::AST::UntilNode] node
+    # @return [void]
+    #
+    def check_until_node(node)
+      if node.body_reachable?
+        check_branch(node.body, node)
+        check_branch(nil, node) if StatementChecker.reachable_to_next_statement?(node.body)
+      else
+        check_branch(nil, node)
+      end
+    end
+
+    #
+    # @param [WhatDyaReturn::AST::BreakNode] node
+    # @return [void]
+    #
+    def check_break_node(node)
+      check_branch(node.children.first, node)
     end
   end
 end
