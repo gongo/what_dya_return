@@ -66,7 +66,7 @@ module WhatDyaReturn
       CODE
     end
 
-    def test_conditinal_with_if_modifier_must_true
+    def test_conditional_with_if_modifier_must_true
       assert_extract_values(<<-CODE, %w[42])
         def foo
           42 if true
@@ -74,7 +74,7 @@ module WhatDyaReturn
       CODE
     end
 
-    def test_conditinal_with_if_modifier_must_false
+    def test_conditional_with_if_modifier_must_false
       assert_extract_values(<<-CODE, %w[nil])
         def foo
           42 if false
@@ -190,7 +190,7 @@ module WhatDyaReturn
       CODE
     end
 
-    def test_conditinal_with_ternary
+    def test_conditional_with_ternary
       assert_extract_values(<<-CODE, %w[1 2])
         def foo
           bar ? 1 : 2
@@ -198,7 +198,7 @@ module WhatDyaReturn
       CODE
     end
 
-    def test_conditinal_with_ternary_only_former
+    def test_conditional_with_ternary_only_former
       assert_extract_values(<<-CODE, %w[1])
         def foo
           true ? 1 : 2
@@ -206,7 +206,7 @@ module WhatDyaReturn
       CODE
     end
 
-    def test_conditinal_with_ternary_only_latter
+    def test_conditional_with_ternary_only_latter
       assert_extract_values(<<-CODE, %w[2])
         def foo
           false ? 1 : 2
