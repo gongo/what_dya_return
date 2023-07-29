@@ -24,7 +24,6 @@ module WhatDyaReturn
 
     #
     # @param [RuboCop::AST::Node] node
-    # @param [RuboCop::AST::Node] parent
     # @return [void]
     #
     def check_branch(node, parent)
@@ -52,8 +51,11 @@ module WhatDyaReturn
         check_until_node(node)
       when WhatDyaReturn::AST::BreakNode
         check_break_node(node)
-      else
+      when RuboCop::AST::Node
         @return_nodes << node if node.used_as_return_value?
+      else
+        # For debug
+        raise UnintentionalNodeError "Unknown node type: #{node.class}"
       end
     end
 

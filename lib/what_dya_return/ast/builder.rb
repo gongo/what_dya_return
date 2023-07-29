@@ -13,6 +13,7 @@ module WhatDyaReturn
         def: DefNode,
         begin: BeginNode,
         kwbegin: BeginNode,
+        array: ArrayNode,
         return: ReturnNode,
         if: IfNode,
         case: CaseNode,
@@ -26,9 +27,17 @@ module WhatDyaReturn
       }.freeze
 
       #
+      # NOTE: Reason why wrap with ArrayNode if the node is `return` or `break` and has multiple children.
+      #
+      #   To treat `return 1, 2` like `return [1, 2]`.
+      #
       # @return [Node]
       #
       def n(type, children, source_map)
+        if %i[return break].include?(type) && children.size > 1
+          children = [ArrayNode.new(:array, children)]
+        end
+
         node_klass(type).new(type, children, location: source_map)
       end
 

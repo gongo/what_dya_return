@@ -48,6 +48,14 @@ module WhatDyaReturn
       CODE
     end
 
+    def test_return_array_using_return_statement_with_multiple_elements
+      assert_extract_values(<<-CODE, ['[1, 2, 3]'])
+        def foo
+          return 1, 2, 3
+        end
+      CODE
+    end
+
     def test_conditional_with_if
       assert_extract_values(<<-CODE, %w[42 nil])
         def foo
@@ -389,6 +397,16 @@ module WhatDyaReturn
         def foo
           while false
             break 2
+          end
+        end
+      CODE
+    end
+
+    def test_conditional_with_while_break_multiple_elements
+      assert_extract_values(<<-CODE, ['[1, 2, 3]'])
+        def foo
+          while true
+            break 1, 2, 3
           end
         end
       CODE

@@ -7,4 +7,5 @@ require_relative 'what_dya_return/version'
 module WhatDyaReturn
   class Error < StandardError; end
   class SyntaxError < Error; end
+  class UnintentionalNodeError < Error; end
 end
