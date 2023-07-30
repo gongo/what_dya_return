@@ -23,6 +23,7 @@ module WhatDyaReturn
         ensure: EnsureNode,
         while: WhileNode,
         until: UntilNode,
+        for: ForNode,
         break: BreakNode
       }.freeze
 

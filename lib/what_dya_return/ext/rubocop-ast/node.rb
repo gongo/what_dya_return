@@ -46,9 +46,11 @@ module WhatDyaReturn
         when AST::BeginNode
           sibling_index == parent.children.size - 1 ? parent.used_as_return_value? : false
         when AST::BreakNode
-          ancestors.find { |n| [AST::WhileNode, AST::UntilNode].include?(n.class) }.used_as_return_value?
+          ancestors.find { |n| [AST::WhileNode, AST::UntilNode, AST::ForNode].include?(n.class) }.used_as_return_value?
         when AST::WhileNode, AST::UntilNode
           false # Only with break or return node.
+        when AST::ForNode
+          parent.collection == self ? parent.used_as_return_value? : false
         else
           parent.used_as_return_value?
         end

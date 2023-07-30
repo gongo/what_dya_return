@@ -470,6 +470,54 @@ module WhatDyaReturn
       CODE
     end
 
+    def test_for
+      assert_extract_values(<<-CODE, %w[1..10])
+        def foo
+          for i in 1..10
+            1
+          end
+        end
+      CODE
+    end
+
+    def test_for_with_break_always
+      assert_extract_values(<<-CODE, %w[2])
+        def foo
+          for i in 1..10
+            1
+            break 2
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_for_with_break_sometimes
+      assert_extract_values(<<-CODE, %w[2 1..10])
+        def foo
+          for i in 1..10
+            1
+            break 2 if baz
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_for_not_last_statement
+      assert_extract_values(<<-CODE, %w[4])
+        def foo
+          for i in 1..10
+            1
+            break 2 if baz
+            3
+          end
+
+          4
+        end
+      CODE
+    end
+
     def test_rescue
       assert_extract_values(<<-CODE, %w[1 2])
         def foo

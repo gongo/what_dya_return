@@ -51,6 +51,8 @@ module WhatDyaReturn
         check_while_node(node)
       when WhatDyaReturn::AST::UntilNode
         check_until_node(node)
+      when WhatDyaReturn::AST::ForNode
+        check_for_node(node)
       when WhatDyaReturn::AST::BreakNode
         check_break_node(node)
       when RuboCop::AST::Node
@@ -165,6 +167,15 @@ module WhatDyaReturn
       else
         check_branch(nil, node)
       end
+    end
+
+    #
+    # @param [WhatDyaReturn::AST::ForNode] node
+    # @return [void]
+    #
+    def check_for_node(node)
+      check_branch(node.body, node)
+      check_branch(node.collection, node) if StatementChecker.reachable_to_next_statement?(node.body)
     end
 
     #
