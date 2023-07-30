@@ -2,11 +2,11 @@
 
 module WhatDyaReturn
   module AST
+    #
+    # Override `RuboCop::AST::ProcessedSource#create_parser` to
+    # use `WhatDyaReturn::AST::Builder` instead of `RuboCop::AST::Builder`
+    #
     class ProcessedSource < ::RuboCop::AST::ProcessedSource
-      #
-      # Override `RuboCop::AST::ProcessedSource#create_parser` to
-      # use `WhatDyaReturn::AST::Builder` instead of `RuboCop::AST::Builder`
-      #
       def create_parser(ruby_version)
         builder = Builder.new
 

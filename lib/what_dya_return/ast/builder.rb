@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-#
-# This file is based on https://github.com/rubocop/rubocop-ast/blob/v1.28.1/lib/rubocop/ast/builder.rb
-# The original code is licensed under the MIT License.
-#
-# https://github.com/rubocop/rubocop-ast/blob/v1.28.1/LICENSE.txt
-#
 module WhatDyaReturn
   module AST
+    #
+    # This file is based on https://github.com/rubocop/rubocop-ast/blob/v1.28.1/lib/rubocop/ast/builder.rb
+    # The original code is licensed under the MIT License.
+    #
+    # https://github.com/rubocop/rubocop-ast/blob/v1.28.1/LICENSE.txt
+    #
     class Builder < Parser::Builders::Default
       NODE_MAP = {
         def: DefNode,

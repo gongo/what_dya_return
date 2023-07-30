@@ -2,6 +2,9 @@
 
 module WhatDyaReturn
   module AST
+    #
+    # A node extension for `if` nodes.
+    #
     class IfNode < ::RuboCop::AST::IfNode
       #
       # @example

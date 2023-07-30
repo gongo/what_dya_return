@@ -2,6 +2,9 @@
 
 module WhatDyaReturn
   module AST
+    #
+    # A node extension for `while` nodes.
+    #
     class WhileNode < ::RuboCop::AST::WhileNode
       #
       # @example

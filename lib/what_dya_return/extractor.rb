@@ -6,6 +6,21 @@ require_relative 'processor'
 module WhatDyaReturn
   class Extractor
     #
+    # Extracts the return value candidates from `source_code`
+    #
+    # @example
+    #
+    #   WhatDyaReturn::Extractor.new.extract(<<-CODE)
+    #     def foo
+    #       if bar
+    #         42
+    #       else
+    #         'baz'
+    #       end
+    #     end
+    #   CODE
+    #   # => ['42', '"baz"']
+    #
     # @param [String] source_code
     # @return [Array<String>]
     # @raise [WhatDyaReturn::SyntaxErrfor] if `source_code` cannot be parsed

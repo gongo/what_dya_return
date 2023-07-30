@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module WhatDyaReturn
+  #
+  # A RuboCop::AST::Node refinement.
+  #
   module NodeRefinary
     refine ::RuboCop::AST::Node do
       #

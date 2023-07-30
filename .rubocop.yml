@@ -3,8 +3,11 @@ require:
 
 Metrics/ClassLength:
   Exclude:
+    - 'lib/what_dya_return/extractor.rb'
+    - 'lib/what_dya_return/processor.rb'
     - 'test/what_dya_return/extractor_test.rb'
 
 Metrics/MethodLength:
   Exclude:
+    - 'lib/what_dya_return/processor.rb'
     - 'test/what_dya_return/extractor_test.rb'

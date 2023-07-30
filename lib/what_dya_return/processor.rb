@@ -25,7 +25,7 @@ module WhatDyaReturn
     private
 
     #
-    # @param [RuboCop::AST::Node] node
+    # @param [RuboCop::AST::Node, nil] node
     # @return [void]
     #
     def check_branch(node, parent)
@@ -200,7 +200,7 @@ module WhatDyaReturn
     end
 
     #
-    # NOTE: The value passed to `next` is not used for the return value of `block`.
+    # @note The value passed to `next` is not used for the return value of `block`.
     #
     # @example
     #
