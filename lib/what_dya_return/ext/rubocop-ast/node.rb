@@ -62,6 +62,13 @@ module WhatDyaReturn
           parent.used_as_return_value?
         end
       end
+
+      #
+      # @see WhatDyaReturn::StatementChecker#reachable_to_next_statement?
+      #
+      def reachable_to_next_statement?
+        StatementChecker.reachable_to_next_statement?(self)
+      end
     end
   end
 end

@@ -74,7 +74,7 @@ module WhatDyaReturn
     def check_begin_node(node)
       node.children[0..-2].each do |child|
         check_branch(child, node)
-        return unless StatementChecker.reachable_to_next_statement?(child) # rubocop:disable Lint/NonLocalExitFromIterator
+        return unless child.reachable_to_next_statement? # rubocop:disable Lint/NonLocalExitFromIterator
       end
 
       check_branch(node.children[-1], node)
@@ -124,7 +124,7 @@ module WhatDyaReturn
     # @return [void]
     #
     def check_rescue_node(node)
-      if node.else_branch && StatementChecker.reachable_to_next_statement?(node.body)
+      if node.else_branch && node.body.reachable_to_next_statement?
         check_branch(node.else_branch, node)
       else
         check_branch(node.body, node)
@@ -140,7 +140,7 @@ module WhatDyaReturn
     # @return [void]
     #
     def check_ensure_node(node)
-      if StatementChecker.reachable_to_next_statement?(node.body)
+      if node.body.reachable_to_next_statement?
         check_branch(node.node_parts[0], node) # begin or rescue node
       else
         check_branch(node.body, node)
@@ -154,7 +154,7 @@ module WhatDyaReturn
     def check_while_node(node)
       if node.body_reachable?
         check_branch(node.body, node)
-        check_branch(nil, node) if StatementChecker.reachable_to_next_statement?(node.body)
+        check_branch(nil, node) if node.body.reachable_to_next_statement?
       else
         check_branch(nil, node)
       end
@@ -167,7 +167,7 @@ module WhatDyaReturn
     def check_until_node(node)
       if node.body_reachable?
         check_branch(node.body, node)
-        check_branch(nil, node) if StatementChecker.reachable_to_next_statement?(node.body)
+        check_branch(nil, node) if node.body.reachable_to_next_statement?
       else
         check_branch(nil, node)
       end
@@ -179,7 +179,7 @@ module WhatDyaReturn
     #
     def check_for_node(node)
       check_branch(node.body, node)
-      check_branch(node.collection, node) if StatementChecker.reachable_to_next_statement?(node.body)
+      check_branch(node.collection, node) if node.body.reachable_to_next_statement?
     end
 
     #
@@ -196,7 +196,7 @@ module WhatDyaReturn
     #
     def check_block_node(node)
       check_branch(node.body, node)
-      check_branch(node.send_node, node) if StatementChecker.reachable_to_next_statement?(node.body)
+      check_branch(node.send_node, node) if node.body.reachable_to_next_statement?
     end
 
     #
