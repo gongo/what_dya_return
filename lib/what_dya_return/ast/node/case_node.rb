@@ -3,7 +3,6 @@
 module WhatDyaReturn
   module AST
     class CaseNode < ::RuboCop::AST::CaseNode
-      include Ascendence
     end
   end
 end

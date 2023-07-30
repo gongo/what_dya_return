@@ -3,8 +3,6 @@
 module WhatDyaReturn
   module AST
     class WhileNode < ::RuboCop::AST::WhileNode
-      include Ascendence
-
       #
       # @example
       #

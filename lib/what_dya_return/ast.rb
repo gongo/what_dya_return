@@ -2,7 +2,8 @@
 
 require 'rubocop-ast'
 
-require_relative 'ast/node/mixin/ascendence'
+require_relative 'ext/rubocop-ast/node'
+
 require_relative 'ast/node'
 require_relative 'ast/node/def_node'
 require_relative 'ast/node/begin_node'

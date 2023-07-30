@@ -3,8 +3,6 @@
 module WhatDyaReturn
   module AST
     class UntilNode < ::RuboCop::AST::UntilNode
-      include Ascendence
-
       #
       # @example
       #

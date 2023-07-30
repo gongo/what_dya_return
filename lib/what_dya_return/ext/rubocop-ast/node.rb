@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module WhatDyaReturn
-  module AST
-    module Ascendence
+  module NodeRefinary
+    refine ::RuboCop::AST::Node do
       #
       # Inspired by RuboCop::AST::Node#value_used?
       #
@@ -39,15 +39,15 @@ module WhatDyaReturn
         return false if parent.nil?
 
         case parent
-        when ReturnNode
+        when AST::ReturnNode
           true
-        when DefNode
+        when AST::DefNode
           sibling_index == parent.children.size - 1
-        when BeginNode
+        when AST::BeginNode
           sibling_index == parent.children.size - 1 ? parent.used_as_return_value? : false
-        when BreakNode
-          ancestors.find { |n| [WhileNode, UntilNode].include?(n.class) }.used_as_return_value?
-        when WhileNode, UntilNode
+        when AST::BreakNode
+          ancestors.find { |n| [AST::WhileNode, AST::UntilNode].include?(n.class) }.used_as_return_value?
+        when AST::WhileNode, AST::UntilNode
           false # Only with break or return node.
         else
           parent.used_as_return_value?

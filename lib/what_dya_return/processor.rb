@@ -4,6 +4,8 @@ require_relative 'statement_checker'
 
 module WhatDyaReturn
   class Processor
+    using NodeRefinary
+
     #
     # @param [WhatDyaReturn::AST::DefNode] node
     # @return [Array<RuboCop::AST::Node>]
