@@ -55,7 +55,7 @@ module WhatDyaReturn
         @return_nodes << node if node.used_as_return_value?
       else
         # For debug
-        raise UnintentionalNodeError "Unknown node type: #{node.class}"
+        raise UnintentionalNodeError, "Unknown node type: #{node.class}"
       end
     end
 
