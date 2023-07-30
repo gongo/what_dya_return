@@ -55,6 +55,10 @@ module WhatDyaReturn
         check_for_node(node)
       when WhatDyaReturn::AST::BreakNode
         check_break_node(node)
+      when WhatDyaReturn::AST::BlockNode
+        check_block_node(node)
+      when WhatDyaReturn::AST::NextNode
+        check_next_node(node)
       when RuboCop::AST::Node
         @return_nodes << node if node.used_as_return_value?
       else
@@ -184,6 +188,39 @@ module WhatDyaReturn
     #
     def check_break_node(node)
       check_branch(node.children.first, node)
+    end
+
+    #
+    # @param [WhatDyaReturn::AST::BlockNode] node
+    # @return [void]
+    #
+    def check_block_node(node)
+      check_branch(node.body, node)
+      check_branch(node.send_node, node) if StatementChecker.reachable_to_next_statement?(node.body)
+    end
+
+    #
+    # NOTE: The value passed to `next` is not used for the return value of `block`.
+    #
+    # @example
+    #
+    #   def foo
+    #     10.times do |i|
+    #       next 42 if i == 2
+    #     end
+    #   end
+    #
+    #   foo => # 10.times
+    #
+    #
+    # @param [WhatDyaReturn::AST::NextNode] node
+    # @return [void]
+    #
+    def check_next_node(node)
+      block_node = node.ancestors.find { |n| n.instance_of?(AST::BlockNode) }
+      return if block_node.nil?
+
+      check_branch(block_node.send_node, node)
     end
   end
 end

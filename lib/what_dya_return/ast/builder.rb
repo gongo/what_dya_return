@@ -24,7 +24,9 @@ module WhatDyaReturn
         while: WhileNode,
         until: UntilNode,
         for: ForNode,
-        break: BreakNode
+        break: BreakNode,
+        next: NextNode,
+        block: BlockNode
       }.freeze
 
       #

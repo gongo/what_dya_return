@@ -16,7 +16,7 @@ module WhatDyaReturn
 
       Processor.new.process(processed.ast).map do |node|
         node.nil? ? 'nil' : Unparser.unparse(node)
-      end
+      end.uniq
     end
   end
 end

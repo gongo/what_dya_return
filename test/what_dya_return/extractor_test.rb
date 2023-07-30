@@ -593,5 +593,59 @@ module WhatDyaReturn
         end
       CODE
     end
+
+    def test_block
+      assert_extract_values(<<-CODE, %w[1.times])
+        def foo
+          1.times do
+            2
+          end
+        end
+      CODE
+    end
+
+    def test_block_with_break_always
+      assert_extract_values(<<-CODE, %w[2])
+        def foo
+          1.times do
+            break 2
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_block_with_break_sometimes
+      assert_extract_values(<<-CODE, %w[2 1.times])
+        def foo
+          1.times do
+            break 2 if bar
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_block_with_next_always
+      assert_extract_values(<<-CODE, %w[1.times])
+        def foo
+          1.times do
+            next 2
+            3
+          end
+        end
+      CODE
+    end
+
+    def test_block_with_next_sometimes
+      assert_extract_values(<<-CODE, %w[1.times])
+        def foo
+          1.times do
+            next 2 if bar
+            3
+          end
+        end
+      CODE
+    end
   end
 end
