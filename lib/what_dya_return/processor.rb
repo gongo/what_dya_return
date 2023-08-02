@@ -6,7 +6,7 @@ module WhatDyaReturn
   class Processor
     using NodeRefinary
 
-    # rubocop:disable Lint/HashAlignment
+    # rubocop:disable Layout/HashAlignment
     BRANCH_CHECKERS = {
       WhatDyaReturn::AST::BeginNode  => :check_begin_node,
       WhatDyaReturn::AST::ReturnNode => :check_return_node,
@@ -21,7 +21,7 @@ module WhatDyaReturn
       WhatDyaReturn::AST::BlockNode  => :check_block_node,
       WhatDyaReturn::AST::NextNode   => :check_next_node
     }.freeze
-    # rubocop:enable Lint/HashAlignment
+    # rubocop:enable Layout/HashAlignment
 
     #
     # @param [WhatDyaReturn::AST::DefNode] node
