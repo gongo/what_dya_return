@@ -3,27 +3,27 @@
 module WhatDyaReturn
   module StatementChecker
     class ReturnableStatement
+      # rubocop:disable Lint/HashAlignment
+      USED_CHECKERS = {
+        AST::ReturnNode => :return_node_used?,
+        AST::DefNode    => :def_node_used?,
+        AST::BeginNode  => :begin_node_used?,
+        AST::BreakNode  => :break_node_used?,
+        AST::WhileNode  => :while_until_node_used?,
+        AST::UntilNode  => :while_until_node_used?,
+        AST::ForNode    => :for_node_used?,
+        AST::BlockNode  => :block_node_used?
+      }.freeze
+      # rubocop:enable Lint/HashAlignment
+
       #
       # Inspired by RuboCop::AST::Node#value_used?
       #
       def ok?(node)
         return false if node.parent.nil?
 
-        case node.parent
-        when AST::ReturnNode
-          return_node_used?(node)
-        when AST::DefNode
-          def_node_used?(node)
-        when AST::BeginNode
-          begin_node_used?(node)
-        when AST::BreakNode
-          break_node_used?(node)
-        when AST::WhileNode, AST::UntilNode
-          while_until_node_used?(node)
-        when AST::ForNode
-          for_node_used?(node)
-        when AST::BlockNode
-          block_node_used?(node)
+        if (checker = USED_CHECKERS[node.parent.class])
+          send(checker, node)
         else
           ok?(node.parent)
         end
