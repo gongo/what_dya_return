@@ -8,4 +8,5 @@ module WhatDyaReturn
   class Error < StandardError; end
   class SyntaxError < Error; end
   class UnintentionalNodeError < Error; end
+  class ArgumentError < Error; end
 end
