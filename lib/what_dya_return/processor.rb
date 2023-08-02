@@ -6,6 +6,23 @@ module WhatDyaReturn
   class Processor
     using NodeRefinary
 
+    # rubocop:disable Lint/HashAlignment
+    BRANCH_CHECKERS = {
+      WhatDyaReturn::AST::BeginNode  => :check_begin_node,
+      WhatDyaReturn::AST::ReturnNode => :check_return_node,
+      WhatDyaReturn::AST::IfNode     => :check_if_node,
+      WhatDyaReturn::AST::CaseNode   => :check_case_node,
+      WhatDyaReturn::AST::RescueNode => :check_rescue_node,
+      WhatDyaReturn::AST::EnsureNode => :check_ensure_node,
+      WhatDyaReturn::AST::WhileNode  => :check_while_node,
+      WhatDyaReturn::AST::UntilNode  => :check_until_node,
+      WhatDyaReturn::AST::ForNode    => :check_for_node,
+      WhatDyaReturn::AST::BreakNode  => :check_break_node,
+      WhatDyaReturn::AST::BlockNode  => :check_block_node,
+      WhatDyaReturn::AST::NextNode   => :check_next_node
+    }.freeze
+    # rubocop:enable Lint/HashAlignment
+
     #
     # @param [WhatDyaReturn::AST::DefNode] node
     # @return [Array<RuboCop::AST::Node>]
@@ -34,32 +51,9 @@ module WhatDyaReturn
         return
       end
 
-      case node
-      when WhatDyaReturn::AST::BeginNode
-        check_begin_node(node)
-      when WhatDyaReturn::AST::ReturnNode
-        check_return_node(node)
-      when WhatDyaReturn::AST::IfNode
-        check_if_node(node)
-      when WhatDyaReturn::AST::CaseNode
-        check_case_node(node)
-      when WhatDyaReturn::AST::RescueNode
-        check_rescue_node(node)
-      when WhatDyaReturn::AST::EnsureNode
-        check_ensure_node(node)
-      when WhatDyaReturn::AST::WhileNode
-        check_while_node(node)
-      when WhatDyaReturn::AST::UntilNode
-        check_until_node(node)
-      when WhatDyaReturn::AST::ForNode
-        check_for_node(node)
-      when WhatDyaReturn::AST::BreakNode
-        check_break_node(node)
-      when WhatDyaReturn::AST::BlockNode
-        check_block_node(node)
-      when WhatDyaReturn::AST::NextNode
-        check_next_node(node)
-      when RuboCop::AST::Node
+      if (checker = BRANCH_CHECKERS.key?(node.class))
+        send(checker, node)
+      elsif node.is_a?(RuboCop::AST::Node)
         @return_nodes << node if node.returnable_statement?
       else
         # For debug
