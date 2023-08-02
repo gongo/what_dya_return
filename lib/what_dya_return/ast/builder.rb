@@ -37,9 +37,7 @@ module WhatDyaReturn
       # @return [Node]
       #
       def n(type, children, source_map)
-        if %i[return break].include?(type) && children.size > 1
-          children = [ArrayNode.new(:array, children)]
-        end
+        children = [ArrayNode.new(:array, children)] if %i[return break].include?(type) && children.size > 1
 
         node_klass(type).new(type, children, location: source_map)
       end
