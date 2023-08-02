@@ -9,6 +9,27 @@ module WhatDyaReturn
       assert_equal(expected, actual)
     end
 
+    def test_extractor_syntax_error
+      assert_raise(WhatDyaReturn::SyntaxError) do
+        WhatDyaReturn::Extractor.new.extract(<<-CODE)
+          def foo
+            42
+        CODE
+      end
+    end
+
+    def test_extractor_argument_error
+      assert_raise(WhatDyaReturn::ArgumentError) do
+        WhatDyaReturn::Extractor.new.extract(<<-CODE)
+          class Foo
+            def foo
+              42
+            end
+          end
+        CODE
+      end
+    end
+
     def test_no_statement
       assert_extract_values(<<-CODE, ['nil'])
         def foo
