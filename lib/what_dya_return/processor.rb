@@ -51,7 +51,7 @@ module WhatDyaReturn
         return
       end
 
-      if (checker = BRANCH_CHECKERS.key?(node.class))
+      if (checker = BRANCH_CHECKERS[node.class])
         send(checker, node)
       elsif node.is_a?(RuboCop::AST::Node)
         @return_nodes << node if node.returnable_statement?
