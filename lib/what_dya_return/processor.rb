@@ -30,7 +30,7 @@ module WhatDyaReturn
     #
     def check_branch(node, parent)
       if node.nil?
-        @return_nodes << node if parent.used_as_return_value?
+        @return_nodes << node if parent.returnable_statement?
         return
       end
 
@@ -60,7 +60,7 @@ module WhatDyaReturn
       when WhatDyaReturn::AST::NextNode
         check_next_node(node)
       when RuboCop::AST::Node
-        @return_nodes << node if node.used_as_return_value?
+        @return_nodes << node if node.returnable_statement?
       else
         # For debug
         raise UnintentionalNodeError, "Unknown node type: #{node.class}"
