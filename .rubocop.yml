@@ -1,6 +1,9 @@
 require:
   - rubocop-performance
 
+AllCops:
+  SuggestExtensions: false
+
 Metrics/ClassLength:
   Exclude:
     - 'lib/what_dya_return/extractor.rb'
@@ -8,6 +11,9 @@ Metrics/ClassLength:
     - 'test/what_dya_return/extractor_test.rb'
 
 Metrics/MethodLength:
+  Max: 30
   Exclude:
-    - 'lib/what_dya_return/processor.rb'
-    - 'test/what_dya_return/extractor_test.rb'
+    - 'test/*'
+
+Style/Documentation:
+  Enabled: false
