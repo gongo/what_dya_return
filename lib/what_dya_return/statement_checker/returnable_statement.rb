@@ -3,7 +3,7 @@
 module WhatDyaReturn
   module StatementChecker
     class ReturnableStatement
-      # rubocop:disable Lint/HashAlignment
+      # rubocop:disable Layout/HashAlignment
       USED_CHECKERS = {
         AST::ReturnNode => :return_node_used?,
         AST::DefNode    => :def_node_used?,
@@ -14,7 +14,7 @@ module WhatDyaReturn
         AST::ForNode    => :for_node_used?,
         AST::BlockNode  => :block_node_used?
       }.freeze
-      # rubocop:enable Lint/HashAlignment
+      # rubocop:enable Layout/HashAlignment
 
       #
       # Inspired by RuboCop::AST::Node#value_used?
