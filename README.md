@@ -62,6 +62,28 @@ puts WhatDyaReturn::Extractor.new.extract(<<-CODE)
   end
 CODE
 # => ['3', '2']
+
+puts WhatDyaReturn::Extractor.new.extract(<<-CODE)
+  def foo
+    for i in 1..10
+      1
+      break 2 if baz
+      3
+    end
+  end
+CODE
+# => ['2', '1..10']
+
+puts WhatDyaReturn::Extractor.new.extract(<<-CODE)
+  def foo
+    1.times do
+      break 2 if bar
+      3
+    end
+  end
+CODE
+# => ['2', '1.times']
+
 ```
 
 ## Caution
